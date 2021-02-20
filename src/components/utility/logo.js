@@ -1,0 +1,25 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Logo from '@iso/assets/images/logo-blue.svg';
+import siteConfig from '@iso/config/site.config';
+
+export default ({ collapsed, onToggle }) => {
+  return (
+    <div className="isoLogoWrapper">
+      {collapsed ? (
+        <button
+          className="triggerBtn menuCollapsed"
+          onClick={onToggle}
+        />
+      ) : (
+        <>
+          <button
+            className="triggerBtn menuOpen"
+            onClick={onToggle}
+          />
+          <Link to="/dashboard"><img src={Logo} height="56px" /></Link>
+        </>
+      )}
+    </div>
+  );
+};
