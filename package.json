@@ -89,7 +89,9 @@
     "styled-theme": "^0.3.3",
     "swiper": "^5.4.5",
     "yup": "^0.29.3",
-    "sass": "^1.83.0"
+    "sass": "^1.83.0",
+    "qs": "^6.13.1",
+    "whatwg-fetch": "^3.6.20"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.0",
