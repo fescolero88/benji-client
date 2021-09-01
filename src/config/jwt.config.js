@@ -1,3 +1,2 @@
-export default {
-  apiUrl: process.env.REACT_APP_STAGING_BASE_URL
-};
+import { resolveApiUrl } from './apiUrl';
+export default { apiUrl: resolveApiUrl(process.env) };

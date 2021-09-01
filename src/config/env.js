@@ -1,3 +1,4 @@
+import { resolveApiUrl } from './apiUrl';
 const {
   REACT_APP_STAGING_BASE_URL: STAGE_BASE_URL,
   REACT_APP_PROD_BASE_URL: PROD_BASE_URL,
@@ -9,7 +10,8 @@ const {
   REACT_APP_OPEN_WEATHER_KEY, REACT_APP_OPEN_WEATHER_URL
 } = process.env;
 
-export const baseUrl = process.env.NODE_ENV !== 'production' ? STAGE_BASE_URL : DEV_BASE_URL;
+export { default as apiConfig } from './jwt.config';
+export const baseUrl = resolveApiUrl(process.env);
 
 // For staging
 export const s3BucketConfig = {
