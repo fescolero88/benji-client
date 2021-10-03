@@ -1,9 +1,12 @@
 import 'whatwg-fetch';
 import fileDownload from 'js-file-download';
 import request from './httpClient';
+import { maxFileUploadSize } from '@iso/config/env';
+import { validateUpload } from './uploadValidation';
 
 export const uploadFile = async (file, dirName) => {
   try {
+    validateUpload(file, maxFileUploadSize);
     const signed = await request(process.env.REACT_APP_UPLOAD_SIGNING_PATH || '/uploads/presign/', 'POST', {
       filename: file.name, content_type: file.type || 'application/octet-stream', directory: dirName
     });
