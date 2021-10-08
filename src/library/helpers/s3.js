@@ -21,6 +21,7 @@ export const uploadFile = async (file, dirName) => {
 
 export const downloadFile = async (url, filename) => {
   const response = await fetch(url);
-  const downloaded = await response.arrayBuffer();
+  if (!response.ok) throw new Error('The file download failed');
+  const downloaded = await response.blob();
   fileDownload(downloaded, filename);
 };
