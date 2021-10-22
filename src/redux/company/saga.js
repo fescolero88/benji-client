@@ -1,4 +1,5 @@
-import { put, takeLatest, takeEvery, call } from 'redux-saga/effects';
+import takeQueued from '@iso/lib/helpers/takeQueued';
+import { put, takeLatest, takeEvery, call, fork } from 'redux-saga/effects';
 import { serializeKeys, deserializeKeys } from '@iso/lib/helpers/keyNormalizer';
 import request from '@iso/lib/helpers/httpClient';
 import * as CONSTANTS from './constants';
@@ -81,8 +82,8 @@ function* declineCompanyPermissionByOwner({ token }) {
 export default function* companySaga() {
   yield takeLatest(CONSTANTS.FETCH_COMPANIES_REQUEST, fetchCompanies);
   yield takeLatest(CONSTANTS.FETCH_COMPANY_DETAIL_REQUEST, fetchCompanyDetail);
-  yield takeLatest(CONSTANTS.CREATE_COMPANY_REQUEST, createCompany);
-  yield takeLatest(CONSTANTS.UPDATE_COMPANY_REQUEST, updateCompany);
+  yield fork(takeQueued, CONSTANTS.CREATE_COMPANY_REQUEST, createCompany);
+  yield fork(takeQueued, CONSTANTS.UPDATE_COMPANY_REQUEST, updateCompany);
   yield takeLatest(CONSTANTS.FETCH_COMPANY_PROFILE_REQUEST, fetchCompanyProfile);
   yield takeEvery(CONSTANTS.UPDATE_COMPANY_PROFILE_REQUEST, updateCompanyProfile);
   yield takeEvery(CONSTANTS.ACCEPT_COMPANY_PERMISSION_BY_OWNER_REQUEST, acceptCompanyPermissionByOwner);
