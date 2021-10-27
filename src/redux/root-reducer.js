@@ -31,7 +31,9 @@ import PersonalNetwork from '@iso/redux/personalNetwork/reducer';
 import CompanyNetwork from '@iso/redux/companyNetwork/reducer';
 import ContractorInvoice from '@iso/redux/contractorInvoice/reducer';
 
-export default combineReducers({
+import { SIGNOUT } from './auth/constants';
+
+const combinedReducer = combineReducers({
   Auth,
   AccountBoard,
   AccountWizard,
@@ -64,3 +66,7 @@ export default combineReducers({
   CompanyNetwork,
   ContractorInvoice
 });
+
+export default function rootReducer(state, action) {
+  return combinedReducer(action.type === SIGNOUT ? undefined : state, action);
+}
