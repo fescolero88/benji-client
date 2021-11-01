@@ -1,3 +1,4 @@
+import { persistor } from '@iso/redux/store';
 import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
 import { deserializeKeys, serializeKeys } from '@iso/lib/helpers/keyNormalizer';
 import { USER_SIGNUP, INVITE_SIGNUP } from './constants';
@@ -17,7 +18,8 @@ function* signin(action) {
 }
 
 function* signout(action) {
-  localStorage.removeItem('persist:root');
+  yield call([persistor, persistor.flush]);
+  yield call([persistor, persistor.purge]);
   history.push('/');
 }
 

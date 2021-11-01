@@ -1,4 +1,5 @@
-import { all } from 'redux-saga/effects';
+import { SIGNOUT } from './auth/constants';
+import { all, fork, take, cancel } from 'redux-saga/effects';
 import authSaga from '@iso/redux/auth/saga';
 import accountboardSaga from '@iso/redux/accountBoard/saga';
 import accountWizardSaga from '@iso/redux/accountWizard/saga';
@@ -26,9 +27,8 @@ import personalNetworkSaga from '@iso/redux/personalNetwork/saga';
 import companyNetworkSaga from '@iso/redux/companyNetwork/saga';
 import contractorInvoiceSaga from '@iso/redux/contractorInvoice/saga';
 
-export default function* rootSaga(getState) {
+function* applicationSaga() {
   yield all([
-    authSaga(),
     accountboardSaga(),
     accountWizardSaga(),
     producerJobSaga(),
@@ -55,4 +55,14 @@ export default function* rootSaga(getState) {
     companyNetworkSaga(),
     contractorInvoiceSaga()
   ]);
+}
+
+export default function* rootSaga() {
+  yield fork(authSaga);
+  let task = yield fork(applicationSaga);
+  while (true) {
+    yield take(SIGNOUT);
+    yield cancel(task);
+    task = yield fork(applicationSaga);
+  }
 }
