@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {Redirect, useHistory, useLocation} from 'react-router';
+import {Redirect} from 'react-router';
 import { Layout } from 'antd';
 import useWindowSize from '@iso/lib/hooks/useWindowSize';
 import appActions from '@iso/redux/app/actions';
@@ -34,8 +34,8 @@ const styles = {
 
 const AuthUserDashboard = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
+
+
 
   const { user: authUser } = useSelector(state => state.Auth);
   const appHeight = useSelector(state => state.App.height);
@@ -51,7 +51,14 @@ const AuthUserDashboard = () => {
     dispatch(fetchAccountJobsRequest(authUser.id, 'PENDING'));
     dispatch(fetchAccountCallsheetsRequest(authUser.id, {status: 'PENDING'}));
     dispatch(fetchAccountNetworkInvitationsRequest(authUser.id, {status: 'Pending'}));
-  }, [location]);
+    };
+    refresh();
+    const interval = setInterval(refresh, 60000);
+    document.addEventListener('visibilitychange', refresh);
+    return () => { clearInterval(interval); document.removeEventListener('visibilitychange', refresh); };
+  }, [dispatch, authUser && authUser.id]);
+
+  if (!authUser) return <Redirect to="/login" />;
 
   if (!authUser.profileCompleted) {
     return <Redirect to="/account-wizard" />
