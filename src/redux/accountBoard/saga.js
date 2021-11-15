@@ -1,4 +1,5 @@
-import { put, takeEvery, takeLatest, call } from 'redux-saga/effects';
+import takeLatestByKey from '@iso/lib/helpers/takeLatestByKey';
+import { put, takeLatest, call, fork } from 'redux-saga/effects';
 import { deserializeKeys, serializeKeys } from '@iso/lib/helpers/keyNormalizer';
 import request from '@iso/lib/helpers/httpClient';
 import * as CONSTANTS from './constants';
@@ -34,7 +35,7 @@ function* fetchAccountNetworkInvitations({ accountId, filter }) {
 }
 
 export default function* accountBoardSaga() {
-  yield takeEvery(CONSTANTS.FETCH_ACCOUNT_JOBS_REQUEST, fetchAccountJobs);
-  yield takeEvery(CONSTANTS.FETCH_ACCOUNT_CALLSHEETS_REQUEST, fetchAccountCallsheets);
+  yield fork(takeLatestByKey, CONSTANTS.FETCH_ACCOUNT_JOBS_REQUEST, fetchAccountJobs, action => action.accountId + ':' + action.jobType);
+  yield takeLatest(CONSTANTS.FETCH_ACCOUNT_CALLSHEETS_REQUEST, fetchAccountCallsheets);
   yield takeEvery(CONSTANTS.FETCH_ACCOUNT_NETWORK_INVITATIONS_REQUEST, fetchAccountNetworkInvitations);
 }
