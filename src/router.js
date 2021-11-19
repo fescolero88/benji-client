@@ -9,9 +9,8 @@ import { useSelector } from 'react-redux';
 import ErrorBoundary from './ErrorBoundary';
 import { PUBLIC_ROUTE } from './route.constants';
 import Loader from '@iso/components/utility/loader';
-import AccountWizard from '@iso/containers/AccountWizard/AccountWizard';
-import AccountSuccess from '@iso/containers/AccountWizard/AccountSuccess';
-import Boot from './Boot';
+const AccountWizard = lazy(() => import('@iso/containers/AccountWizard/AccountWizard'));
+const AccountSuccess = lazy(() => import('@iso/containers/AccountWizard/AccountSuccess'));
 
 const Dashboard = lazy(() => import('@iso/containers/Dashboard/Dashboard'));
 
