@@ -7,7 +7,7 @@ import StatusTag from '@iso/components/utility/statusTag';
 import MemoTypes from '@iso/enums/memo_types';
 import {
   JobMoreAction, JobClientName, JobTitle, JobStatusBar,
-  JobDetail, JobDetailItem, JobAction, JobCrew
+  JobDetail, JobDetailItem, JobAction
 } from "./JobCard.style";
 import { formatDateRange } from '@iso/lib/helpers/utility';
 import ContractorJobBoardContext from '../../JobBoardContext';

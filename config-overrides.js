@@ -1,8 +1,9 @@
 var path = require('path');
 const { override, fixBabelImports, addWebpackAlias } = require('customize-cra');
+const { stripClientSecrets } = require('./scripts/client-secrets.cjs');
 
 module.exports = function(config, env) {
-  return Object.assign(
+  return stripClientSecrets(Object.assign(
     config,
     override(
       fixBabelImports('import', {
@@ -22,5 +23,5 @@ module.exports = function(config, env) {
         ['@iso/ui']: path.resolve(__dirname, 'src/UI'),
       })
     )(config, env)
-  );
+  ));
 };

@@ -1,5 +1,7 @@
 import { SIGNOUT } from './auth/constants';
-import { all, fork, take, cancel } from 'redux-saga/effects';
+import { all, fork, take, cancel, call } from 'redux-saga/effects';
+import { persistor } from './store';
+import history from '@iso/lib/helpers/history';
 import authSaga from '@iso/redux/auth/saga';
 import accountboardSaga from '@iso/redux/accountBoard/saga';
 import accountWizardSaga from '@iso/redux/accountWizard/saga';
@@ -29,6 +31,7 @@ import contractorInvoiceSaga from '@iso/redux/contractorInvoice/saga';
 
 function* applicationSaga() {
   yield all([
+    authSaga(),
     accountboardSaga(),
     accountWizardSaga(),
     producerJobSaga(),
@@ -58,11 +61,13 @@ function* applicationSaga() {
 }
 
 export default function* rootSaga() {
-  yield fork(authSaga);
   let task = yield fork(applicationSaga);
   while (true) {
     yield take(SIGNOUT);
     yield cancel(task);
+    yield call([persistor, persistor.flush]);
+    yield call([persistor, persistor.purge]);
     task = yield fork(applicationSaga);
+    history.push('/');
   }
 }

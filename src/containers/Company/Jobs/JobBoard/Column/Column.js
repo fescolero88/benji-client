@@ -2,7 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import JobList from "../Job/JobList/JobList";
 import Title from "../Title/Title";
-import { Container, Header, CreateButtonWrapper } from "./Column.style";
+import { Container, Header } from "./Column.style";
 
 const Column = ({
   title,

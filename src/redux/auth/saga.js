@@ -1,8 +1,6 @@
-import { persistor } from '@iso/redux/store';
-import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call } from 'redux-saga/effects';
 import { deserializeKeys, serializeKeys } from '@iso/lib/helpers/keyNormalizer';
 import { USER_SIGNUP, INVITE_SIGNUP } from './constants';
-import history from '@iso/lib/helpers/history';
 import request from '@iso/lib/helpers/httpClient';
 import * as CONSTANTS from './constants';
 import * as ACTIONS from './actions';
@@ -15,12 +13,6 @@ function* signin(action) {
   } catch (error) {
     yield put(ACTIONS.signinError(error));
   }
-}
-
-function* signout(action) {
-  yield call([persistor, persistor.flush]);
-  yield call([persistor, persistor.purge]);
-  history.push('/');
 }
 
 function* signup(action) {
@@ -165,7 +157,6 @@ export default function* authSaga() {
   yield takeLatest(CONSTANTS.INVITATION_ACCEPT_REQUEST, acceptInvitation);
   yield takeLatest(CONSTANTS.ACCEPT_COMPANY_OWNER_INVITATION_REQUEST, acceptCompanyOwnerInvitation);
   yield takeEvery(CONSTANTS.VERIFY_EMAIL_REQUEST, verifyEmail);
-  yield takeLatest(CONSTANTS.SIGNOUT, signout);
   yield takeLatest(CONSTANTS.SYNC_AUTH_USER_REQUEST, syncAuthUser);
   yield takeLatest(CONSTANTS.VERIFY_MEMO_REQUEST, verifyMemo);
 }

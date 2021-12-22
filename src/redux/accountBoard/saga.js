@@ -37,5 +37,5 @@ function* fetchAccountNetworkInvitations({ accountId, filter }) {
 export default function* accountBoardSaga() {
   yield fork(takeLatestByKey, CONSTANTS.FETCH_ACCOUNT_JOBS_REQUEST, fetchAccountJobs, action => action.accountId + ':' + action.jobType);
   yield takeLatest(CONSTANTS.FETCH_ACCOUNT_CALLSHEETS_REQUEST, fetchAccountCallsheets);
-  yield takeEvery(CONSTANTS.FETCH_ACCOUNT_NETWORK_INVITATIONS_REQUEST, fetchAccountNetworkInvitations);
+  yield takeLatest(CONSTANTS.FETCH_ACCOUNT_NETWORK_INVITATIONS_REQUEST, fetchAccountNetworkInvitations);
 }

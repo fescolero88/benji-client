@@ -41,16 +41,20 @@ const AuthUserDashboard = () => {
   const appHeight = useSelector(state => state.App.height);
 
   useEffect(() => {
-    if (authUser.lastLogin) {
+    if (authUser && authUser.lastLogin) {
       dispatch(syncAuthUserRequest())
     }
   }, [dispatch]);
 
   useEffect(() => {
-    // Subscribe Person/Pending, Callsheet, Network
-    dispatch(fetchAccountJobsRequest(authUser.id, 'PENDING'));
-    dispatch(fetchAccountCallsheetsRequest(authUser.id, {status: 'PENDING'}));
-    dispatch(fetchAccountNetworkInvitationsRequest(authUser.id, {status: 'Pending'}));
+    if (!authUser || !authUser.id) return;
+    let lastRefresh = 0;
+    const refresh = () => {
+      if (document.hidden || Date.now() - lastRefresh < 60000) return;
+      lastRefresh = Date.now();
+      dispatch(fetchAccountJobsRequest(authUser.id, 'PENDING'));
+      dispatch(fetchAccountCallsheetsRequest(authUser.id, {status: 'PENDING'}));
+      dispatch(fetchAccountNetworkInvitationsRequest(authUser.id, {status: 'Pending'}));
     };
     refresh();
     const interval = setInterval(refresh, 60000);

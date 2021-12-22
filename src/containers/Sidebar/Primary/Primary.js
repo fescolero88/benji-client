@@ -3,7 +3,7 @@ import {useHistory} from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {Col, Layout, Row} from 'antd';
 import Menu from '@iso/components/uielements/menu';
-import PrimarySidebarWrapper, { CompanyPlusMenuWrapper, AddCompanyModalWrapper } from './Primary.styles';
+import PrimarySidebarWrapper, { CompanyPlusMenuWrapper } from './Primary.styles';
 import Button from '@iso/components/uielements/button';
 import Icon from '@iso/components/icons/Icon';
 import Popover from '@iso/components/uielements/popover';

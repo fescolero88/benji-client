@@ -6,5 +6,5 @@ export function resolveApiUrl(env) {
   const url = new URL(configured);
   if (!['http:', 'https:'].includes(url.protocol)) throw new Error('The API URL must use HTTP or HTTPS');
   if (env.NODE_ENV === 'production' && url.protocol !== 'https:') throw new Error('Production API requests require HTTPS');
-  return configured.replace(//+$/, '');
+  return configured.replace(/\/+$/, '');
 }
